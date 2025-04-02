@@ -1,40 +1,31 @@
 package com.example.demo;
 
 import com.example.demo.model.Board;
+import com.example.demo.model.Dice;
 import com.example.demo.model.Player;
-import com.example.demo.util.Utils;
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 import java.util.Random;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Slf4j
-@SpringBootApplication
-@RequiredArgsConstructor
 public class DemoApplication {
+  private static final Logger log = LoggerFactory.getLogger(DemoApplication.class); // Manually define logger
 
-  private final Utils utils;
 
   public static void main(String[] args) {
-    SpringApplication.run(DemoApplication.class, args);
-  }
+    Random random = new Random();
 
-  @PostConstruct
-  public void playGame() {
-    Board board =
-        Board.builder().snakes(utils.buildSnakes(5)).ladders(utils.buildLadders(5)).build();
+    Board board = new Board(100, random);
+
+    board.setLadders(board.buildLadders(5));
+    board.setSnakes(board.buildSnakes(5));
 
     log.info("Board is {}", board);
 
-    Game game =
-        Game.builder()
-            .random(new Random())
-            .players(List.of(Player.builder().id(0).build(), Player.builder().id(1).build()))
-            .board(board)
-            .build();
+    Dice dice = new Dice(0, 6, random);
+    Game game = new Game(dice, random, List.of(new Player(0, 0), new Player(1, 0)), board);
 
     game.play();
   }
