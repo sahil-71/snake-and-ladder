@@ -2,13 +2,12 @@ package com.example.demo.util;
 
 import com.example.demo.model.Ladder;
 import com.example.demo.model.Snake;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import org.springframework.stereotype.Service;
 
 @Service
 public class Utils {
